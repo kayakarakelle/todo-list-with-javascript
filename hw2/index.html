@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 16px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #fbfbfb;
+  }
+
+
+
+  .addBtn {
+    padding: 5px;
+    width: 10%;
+    background: #070000;
+    color: #ffffff;
+    float: right;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 0;
+  }
+</style>
+
+<body>
+  <div id="sayfa">
+    <label>Task Name:</label> <input type="text" id="taskName" style="text-transform: capitalize;">
+    <label>Task Type:</label> <input type="text" id="taskType" style="text-transform: capitalize;">
+    <label>Due Date:</label> <input type="date" id="start">
+    
+    <button id="add" onclick="addNewElements()" class="addBtn">Add</button>
+    <p class ="difference" > </p>
+    <table id="list">
+      <tr>
+        <th>Task Name</th>
+        <th>Task Type</th>
+        <th>Due Date</th>
+        <th>Remaining Time</th>
+      </tr>
+    </table>
+  </div>
+  <script>
+    const taskName = document.querySelector("#taskName")
+    const taskType = document.querySelector("#taskType")
+    const start = document.querySelector("#start")
+    const add = document.querySelector("#add")
+    const list = document.querySelector("#list")
+
+
+
+    const addNewElements = function () {
+
+      let tTaskName = document.createElement("td");
+      let tTaskType = document.createElement("td");
+      let tStart = document.createElement("td");
+      let remainTime = document.createElement("td")
+      let deleteCell = document.createElement("td");
+      let deleteButton = document.createElement("button");
+
+
+
+
+      tTaskName.textContent = taskName.value;
+      tTaskType.textContent = taskType.value;
+      remainTime.textContent = calculateDay(start.value);
+      tStart.textContent = start.value;
+      deleteButton.textContent = "Delete";
+      deleteButton.onclick = function () {
+        deleteRow(this);
+      };
+
+
+
+
+      let tr = document.createElement("tr");
+
+      tr.appendChild(tTaskName);
+      tr.appendChild(tTaskType);
+      tr.appendChild(tStart);
+      deleteCell.appendChild(deleteButton);
+      tr.appendChild(deleteButton);
+
+
+
+
+      list.appendChild(tr);
+
+      taskName.value = "";
+      taskType.value = "";
+      start.value = "";
+
+
+
+
+      taskName.focus();
+    }
+    function deleteRow(button) {
+      let cell = button.parentNode; // Butonun parent hücresini alır
+
+      // Hücrenin parent row'unu bulur
+      while (cell && cell.tagName !== 'TR') {
+        cell = cell.parentNode;
+      }
+
+      // Hücre TR elemanı değilse fonksiyonu sonlandırır
+      if (!cell) {
+        return;
+      }
+
+      // TR hücresi kaldırılır
+      cell.parentNode.removeChild(cell);
+    }
+    function calculateDay(a) {
+      let d = new Date();
+      let enterDate = document.getElementById("start");
+      let curDate = document.getElementById("d");
+      const diff = Math.abs(new Date(curDate.value)-new Date(enterDate.value))
+      const dayscount = Math.ceil(diff/(1000 * 60 * 60 *24));
+      diff.value = "";
+
+      
+      
+    }
+    
+    
+  </script>
+
+
+</body>
+
+</html>
